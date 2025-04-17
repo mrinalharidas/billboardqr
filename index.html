@@ -2,117 +2,62 @@
 <html>
   <head>
     <title>AR Billboard Top 10</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js/aframe/build/aframe-ar.min.js"></script>
-    <script src="https://unpkg.com/aframe-html-shader@1.0.0/dist/aframe-html-shader.min.js"></script>
-    <style>
-      #ar-ui {
-        display: none;
-        width: 300px;
-        background-color: #121212;
-        color: white;
-        padding: 20px;
-        border-radius: 20px;
-        font-family: Arial, sans-serif;
-      }
-
-      h2 {
-        color: #1db954;
-        text-align: center;
-        margin-bottom: 15px;
-      }
-
-      .song-title {
-        margin: 8px 0;
-        font-size: 16px;
-        cursor: pointer;
-      }
-
-      .song-title:hover {
-        color: #1db954;
-      }
-
-      .music-footer {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-top: 15px;
-      }
-
-      .play-icon {
-        width: 24px;
-      }
-
-      .seekbar {
-        flex-grow: 1;
-        margin-left: 10px;
-        height: 6px;
-        background-color: #444;
-        border-radius: 10px;
-        overflow: hidden;
-      }
-
-      .progress {
-        width: 40%;
-        height: 100%;
-        background-color: #1db954;
-      }
-    </style>
   </head>
-
   <body style="margin: 0; overflow: hidden;">
-    <!-- Hidden HTML UI -->
-    <div id="ar-ui">
-      <h2>Billboard Top 10</h2>
-      <div class="song-title" onclick="window.open('https://open.spotify.com/track/4Dvkj6JhhA12EX05fT7y2e')">1. Fortnight - Taylor Swift ft. Post Malone</div>
-      <div class="song-title" onclick="window.open('https://open.spotify.com/track/4kHjC9U0J7pL8V0FzdVnZ3')">2. Beautiful Things - Benson Boone</div>
-      <div class="song-title" onclick="window.open('https://open.spotify.com/track/5z3GHaZ6ec9bsiI5BenrbY')">3. Texas Hold 'Em - Beyoncé</div>
-      <div class="song-title" onclick="window.open('https://open.spotify.com/track/2xLMifQCjDGFmkHkpNLD9h')">4. Feather - Sabrina Carpenter</div>
-      <div class="song-title" onclick="window.open('https://open.spotify.com/track/6ZRuF2n1CQxyxxAAWsKJOy')">5. I Had Some Help - Post Malone</div>
-      <div class="song-title" onclick="window.open('https://open.spotify.com/track/5tX4Ck5bNUnTkAU0hVgPoT')">6. Like That - Future, Metro Boomin</div>
-      <div class="song-title" onclick="window.open('https://open.spotify.com/track/4pt5fDVTg5Sk4tYw3zN0dT')">7. Espresso - Sabrina Carpenter</div>
-      <div class="song-title" onclick="window.open('https://open.spotify.com/track/2VxiW9MN2nYrMYsuu6iT5Z')">8. Too Sweet - Hozier</div>
-      <div class="song-title" onclick="window.open('https://open.spotify.com/track/3YJJjQPAbDT7mGpX3WtQ9A')">9. Slow It Down - Benson Boone</div>
-      <div class="song-title" onclick="window.open('https://open.spotify.com/track/1rqqCSm0Qe4I9rUvWncaom')">10. Cruel Summer - Taylor Swift</div>
-      <div class="music-footer">
-        <img src="https://cdn-icons-png.flaticon.com/512/27/27223.png" class="play-icon" />
-        <div class="seekbar">
-          <div class="progress"></div>
-        </div>
-      </div>
-    </div>
+    <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false;">
 
-    <a-scene embedded arjs>
-      <a-marker preset="hiro" id="marker">
-        <!-- This plane will show the UI -->
-        <a-entity id="music-ui"
-          geometry="primitive: plane; height: 2.5; width: 2"
-          material="shader: html; target: #ar-ui;"
-          rotation="-90 0 0"
-          position="0 0 0">
-        </a-entity>
+      <!-- Marker -->
+      <a-marker preset="hiro">
+        <!-- Background panel -->
+        <a-plane position="0 0 0" width="2" height="2.5" rotation="-90 0 0" color="#000000" opacity="0.7"></a-plane>
+
+        <!-- Title -->
+        <a-text value="🎵 Billboard Top 10" position="0 1.1 0.01" rotation="-90 0 0" align="center" color="#FFD700" scale="0.6 0.6 0.6"></a-text>
+
+        <!-- Song List -->
+        <a-entity id="songList" position="0 0.95 0.01" rotation="-90 0 0" scale="0.4 0.4 0.4"></a-entity>
       </a-marker>
+
+      <!-- Camera -->
       <a-entity camera></a-entity>
     </a-scene>
 
     <script>
-      const marker = document.querySelector("#marker");
-      const arUI = document.querySelector("#ar-ui");
-      const musicPlane = document.querySelector("#music-ui");
+      const songs = [
+        { title: "Lose Control", url: "https://www.youtube.com/watch?v=xs9eZcfYpTg" },
+        { title: "Espresso", url: "https://www.youtube.com/watch?v=QzqqyJ3zZ5g" },
+        { title: "Beautiful Things", url: "https://www.youtube.com/watch?v=YdmfN3S91gI" },
+        { title: "Like That", url: "https://www.youtube.com/watch?v=0DhD8M4aAj4" },
+        { title: "Fortnight", url: "https://www.youtube.com/watch?v=JKR1YURuMbk" },
+        { title: "Too Sweet", url: "https://www.youtube.com/watch?v=KrRHGy9YjBM" },
+        { title: "Texas Hold 'Em", url: "https://www.youtube.com/watch?v=LY2pqI9t5fs" },
+        { title: "I Had Some Help", url: "https://www.youtube.com/watch?v=jDqF4Nq6MWs" },
+        { title: "Slow It Down", url: "https://www.youtube.com/watch?v=FWlw9T-CtIs" },
+        { title: "Feather", url: "https://www.youtube.com/watch?v=4xjPODksI08" }
+      ];
 
-      marker.addEventListener("markerFound", () => {
-        arUI.style.display = "block";
+      const songListEl = document.getElementById('songList');
 
-        // Force rebind shader target (fixes black screen)
-        musicPlane.setAttribute("material", {
-          shader: "html",
-          target: "#ar-ui"
+      songs.forEach((song, index) => {
+        const songText = document.createElement('a-text');
+        songText.setAttribute('value', `${index + 1}. ${song.title}`);
+        songText.setAttribute('color', '#FFFFFF');
+        songText.setAttribute('align', 'center');
+        songText.setAttribute('position', `0 ${-0.2 * index} 0`);
+        songText.setAttribute('scale', '1 1 1');
+
+        // Open link when clicked
+        songText.addEventListener('click', () => {
+          window.open(song.url, '_blank');
         });
-      });
 
-      marker.addEventListener("markerLost", () => {
-        arUI.style.display = "none";
+        songListEl.appendChild(songText);
       });
     </script>
   </body>
 </html>
+
+
