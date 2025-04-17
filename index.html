@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>AR Billboard Top 10</title>
+    <title>AR Spotify-Style Billboard</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js/aframe/build/aframe-ar.min.js"></script>
@@ -11,24 +11,25 @@
   </head>
   <body>
     <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false;">
+      
       <!-- Marker -->
       <a-marker preset="hiro">
 
-        <!-- Player Box -->
-        <a-plane position="0 0 0" width="2.2" height="2.5" color="#111" rotation="-90 0 0" material="opacity: 0.9;"></a-plane>
+        <!-- Main Player Box -->
+        <a-plane position="0 0 0" width="2.2" height="2.7" color="#121212" rotation="-90 0 0" material="shader: flat; side: double;"></a-plane>
 
         <!-- Header -->
-        <a-text value="🎧 Billboard Top 10" position="0 1.1 0.01" align="center" color="#FFD700"
-                scale="0.6 0.6 0.6" rotation="-90 0 0"
+        <a-text value="🎵 Billboard Top 10" position="0 1.15 0.01" align="center"
+                color="#1DB954" scale="0.7 0.7 0.7" rotation="-90 0 0"
                 font="https://cdn.aframe.io/fonts/mozillavr.fnt"></a-text>
 
         <!-- Song List -->
-        <a-entity id="songList" position="0 0.95 0.02" rotation="-90 0 0" scale="0.5 0.5 0.5"></a-entity>
+        <a-entity id="songList" position="0 0.9 0.02" rotation="-90 0 0" scale="0.45 0.45 0.45"></a-entity>
 
-        <!-- Play Button Style -->
-        <a-plane position="0 -1.1 0.01" width="1.5" height="0.2" color="#333" material="opacity: 0.7;"></a-plane>
-        <a-text value="Tap a song to play ▶️" position="0 -1.1 0.02" align="center" color="#ffffff"
-                scale="0.4 0.4 0.4" rotation="-90 0 0"></a-text>
+        <!-- Footer Play Hint -->
+        <a-plane position="0 -1.15 0.01" width="1.8" height="0.25" color="#1DB954" rotation="-90 0 0"></a-plane>
+        <a-text value="Tap a song to play ▶️" position="0 -1.15 0.02" align="center" color="#ffffff"
+                scale="0.45 0.45 0.45" rotation="-90 0 0"></a-text>
 
       </a-marker>
 
@@ -37,7 +38,7 @@
 
     <script>
       const songs = [
-        { title: "1. Lose Control - Teddy Swims", url: "https://www.youtube.com/watch?v=GZ3zL7kT6_c" },
+        { title: "1. Lose Control - Teddy Swims", url: "https://www.youtube.com/watch?v=xs9eZcfYpTg" },
         { title: "2. Beautiful Things - Benson Boone", url: "https://www.youtube.com/watch?v=YdmfN3S91gI" },
         { title: "3. Texas Hold 'Em - Beyoncé", url: "https://www.youtube.com/watch?v=LY2pqI9t5fs" },
         { title: "4. Feather - Sabrina Carpenter", url: "https://www.youtube.com/watch?v=4xjPODksI08" },
@@ -54,8 +55,8 @@
       songs.forEach((song, index) => {
         const text = document.createElement('a-text');
         text.setAttribute('value', song.title);
-        text.setAttribute('position', `0 ${-0.22 * index} 0`);
-        text.setAttribute('color', '#00FFEF');
+        text.setAttribute('position', `0 ${-0.27 * index} 0`);
+        text.setAttribute('color', '#FFFFFF');
         text.setAttribute('align', 'center');
         text.setAttribute('scale', '0.6 0.6 0.6');
         text.setAttribute('rotation', '0 0 0');
