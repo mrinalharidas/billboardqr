@@ -5,7 +5,6 @@
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js/aframe/build/aframe-ar.min.js"></script>
     <script src="https://unpkg.com/aframe-html-shader@1.0.0/dist/aframe-html-shader.min.js"></script>
-
     <style>
       #ar-ui {
         display: none;
@@ -14,7 +13,7 @@
         color: white;
         padding: 20px;
         border-radius: 20px;
-        font-family: 'Arial', sans-serif;
+        font-family: Arial, sans-serif;
       }
 
       h2 {
@@ -83,18 +82,37 @@
       </div>
     </div>
 
-    <a-scene embedded arjs="sourceType: webcam;">
+    <a-scene embedded arjs>
       <a-marker preset="hiro" id="marker">
-        <a-entity geometry="primitive: plane; height: 2.5; width: 2" material="shader: html; target: #ar-ui;" rotation="-90 0 0" position="0 0 0"></a-entity>
+        <!-- This plane will show the UI -->
+        <a-entity id="music-ui"
+          geometry="primitive: plane; height: 2.5; width: 2"
+          material="shader: html; target: #ar-ui;"
+          rotation="-90 0 0"
+          position="0 0 0">
+        </a-entity>
       </a-marker>
       <a-entity camera></a-entity>
     </a-scene>
 
     <script>
-      document.querySelector("#marker").addEventListener("markerFound", () => {
-        document.querySelector("#ar-ui").style.display = "block";
+      const marker = document.querySelector("#marker");
+      const arUI = document.querySelector("#ar-ui");
+      const musicPlane = document.querySelector("#music-ui");
+
+      marker.addEventListener("markerFound", () => {
+        arUI.style.display = "block";
+
+        // Force rebind shader target (fixes black screen)
+        musicPlane.setAttribute("material", {
+          shader: "html",
+          target: "#ar-ui"
+        });
+      });
+
+      marker.addEventListener("markerLost", () => {
+        arUI.style.display = "none";
       });
     </script>
   </body>
 </html>
-
