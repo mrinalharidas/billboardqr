@@ -1,36 +1,67 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AR Billboard Top 10 Songs</title>
-  
-  <!-- Include A-Frame and AR.js -->
-  <script src="https://aframe.io/releases/0.9.2/aframe.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js/aframe/build/aframe-ar.js"></script>
-</head>
-<body style="margin: 0; overflow: hidden;">
-  <a-scene embedded arjs="sourceType: webcam; detectionMode: mono_and_matrix; matrixCodeType: 3x3;">
-    <!-- AR Marker (Default "hiro") -->
-    <a-marker preset="hiro">
-      
-      <!-- Background Panel (semi-transparent) -->
-      <a-plane position="0 0 0" width="3.5" height="3" color="#000000" opacity="0.7" rotation="0 0 0"></a-plane>
-      
-      <!-- Billboard Top 10 Songs Text -->
-      <a-text value="1. Blinding Lights\n2. Save Your Tears\n3. Levitating\n4. Peaches\n5. Kiss Me More\n6. Deja Vu\n7. Good 4 U\n8. Montero\n9. Stay\n10. Industry Baby"
-              align="center"
-              position="0 0.5 0.1"
-              scale="3 3 3"
-              color="#FFFFFF"
-              wrap-count="20"
-              font="https://cdn.aframe.io/fonts/mozillavr.fnt"
-              rotation="0 0 0">
-      </a-text>
-    </a-marker>
-    
-    <!-- Camera for AR -->
-    <a-entity camera></a-entity>
-  </a-scene>
-</body>
+<html>
+  <head>
+    <title>AR Billboard Top 10</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js/aframe/build/aframe-ar.min.js"></script>
+  </head>
+  <body style="margin: 0; overflow: hidden;">
+    <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false;">
+
+      <!-- Marker -->
+      <a-marker preset="hiro">
+
+        <!-- Background -->
+        <a-plane position="0 0 0" width="2.5" height="2.5" color="#1e1e1e" opacity="0.85" rotation="-90 0 0"></a-plane>
+
+        <!-- Title -->
+        <a-text value="🎵 Billboard Top 10" position="0 1.05 0.01" align="center" color="#FFD700" scale="0.5 0.5 0.5"
+          font="https://cdn.aframe.io/fonts/mozillavr.fnt"></a-text>
+
+        <!-- Song Entries -->
+        <a-entity id="songList" position="0 0.9 0.01" rotation="-90 0 0" scale="0.4 0.4 0.4">
+          <!-- We’ll inject song text + links using JS -->
+        </a-entity>
+
+      </a-marker>
+
+      <a-entity camera></a-entity>
+    </a-scene>
+
+    <script>
+      const songs = [
+        { title: "Lose Control", url: "https://www.youtube.com/watch?v=xs9eZcfYpTg" },
+        { title: "Espresso", url: "https://www.youtube.com/watch?v=QzqqyJ3zZ5g" },
+        { title: "Beautiful Things", url: "https://www.youtube.com/watch?v=YdmfN3S91gI" },
+        { title: "Like That", url: "https://www.youtube.com/watch?v=0DhD8M4aAj4" },
+        { title: "Fortnight", url: "https://www.youtube.com/watch?v=JKR1YURuMbk" },
+        { title: "Too Sweet", url: "https://www.youtube.com/watch?v=KrRHGy9YjBM" },
+        { title: "Texas Hold 'Em", url: "https://www.youtube.com/watch?v=LY2pqI9t5fs" },
+        { title: "I Had Some Help", url: "https://www.youtube.com/watch?v=jDqF4Nq6MWs" },
+        { title: "Slow It Down", url: "https://www.youtube.com/watch?v=FWlw9T-CtIs" },
+        { title: "Feather", url: "https://www.youtube.com/watch?v=4xjPODksI08" },
+      ];
+
+      const songListEl = document.getElementById('songList');
+
+      songs.forEach((song, index) => {
+        const songText = document.createElement('a-text');
+        songText.setAttribute('value', `${index + 1}. ${song.title}`);
+        songText.setAttribute('color', '#FFFFFF');
+        songText.setAttribute('align', 'center');
+        songText.setAttribute('position', `0 ${-0.2 * index} 0`);
+        songText.setAttribute('scale', '1 1 1');
+        songText.setAttribute('class', 'clickable');
+        songText.setAttribute('cursor', 'fuse: false');
+
+        // Open link on click
+        songText.addEventListener('click', () => {
+          window.open(song.url, '_blank');
+        });
+
+        songListEl.appendChild(songText);
+      });
+    </script>
+  </body>
 </html>
